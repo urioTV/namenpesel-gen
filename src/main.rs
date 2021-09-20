@@ -1,14 +1,14 @@
 use std::fs;
 use rand::Rng;
-use file_indexing;
+use file_indexing::pust;
 use scanrs::scann;
 fn main() {
-    println!("How many people do you want to gen?\n");
+    println!("How many people do you want to gen?");
     let peopletimes: usize = scann();
 
-    let namefile = "D:\\Programowansko\\namenpesel-gen\\src\\names.txt";
-    let lastnamefile = "D:\\Programowansko\\namenpesel-gen\\src\\lastnames.txt";
-    let writefile = "D:\\Programowansko\\namenpesel-gen\\src\\namenpesel.txt";
+    let namefile = "names.txt";
+    let lastnamefile = "lastnames.txt";
+    let writefile = "namenpesel.txt";
 
     fs::write(writefile, "").expect("File clean failure");
     let firstnames = fs::read_to_string(namefile)
@@ -21,10 +21,8 @@ fn main() {
     let mut lastnamelines: Vec<String> = lastnames.split_whitespace().map(|s| s.to_string()).collect();
 
     let line = connect_pesel(&mut firstnamelines, &mut lastnamelines, peopletimes);
-        //fs::write("D:\\Programowansko\\namenpesel-gen\\src\\namenpesel.txt",line)
-        //            .expect("Something went wrong writing the file");
         
-    file_indexing::pust(writefile, line.as_str()).expect("Something went wrong writing the file");
+    pust(writefile, line.as_str()).expect("Something went wrong writing the file");
 }
 
 fn connect_pesel(names: &mut Vec<String>, lastnames: &mut Vec<String>, times: usize) -> String{
